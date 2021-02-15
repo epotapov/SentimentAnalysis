@@ -2,13 +2,17 @@ import os
 import random
 import spacy
 from spacy.util import minibatch, compounding
+"""
+    Transcendently beautiful in moments outside the office, it seems almost
+    sitcom-like in those scenes. When Toni Colette walks out and ponders
+    life silently, it's gorgeous.<br /><br />The movie doesn't seem to decide
+    whether it's slapstick, farce, magical realism, or drama, but the best of it
+    doesn't matter. (The worst is sort of tedious - like Office Space with less humor.)
+"""
 
 TEST_REVIEW = """
-Transcendently beautiful in moments outside the office, it seems almost
-sitcom-like in those scenes. When Toni Colette walks out and ponders
-life silently, it's gorgeous.<br /><br />The movie doesn't seem to decide
-whether it's slapstick, farce, magical realism, or drama, but the best of it
-doesn't matter. (The worst is sort of tedious - like Office Space with less humor.)
+Honestly this movie fucking sucks ass. Worst movie I have ever seen. Like honestly nothing has made
+my dick more limp than this fucking atrocity of a movie.
 """
 
 def load_training_data(
@@ -22,7 +26,7 @@ def load_training_data(
         labeled_directory = f"{data_directory}/{label}"
         for review in os.listdir(labeled_directory):
             if review.endswith(".txt"):
-                with open(f"{labeled_directory}/{review}", encoding="utf8") as f:   ##open(f"{labeled_directory}/{review}")
+                with open(f"{labeled_directory}/{review}", encoding="utf-8") as f:   ##open(f"{labeled_directory}/{review}")
                     text = f.read()
                     text = text.replace("<br />", "\n\n")
                     if text.strip():
@@ -58,13 +62,13 @@ def evaluate_model(
                 predicted_label == "neg"
             ):
                 continue
-            if score >= 0.5 and true_label["pos"]:
+            if score >= 0.5 and true_label["cats"]["pos"]:
                 true_positives += 1
-            elif score >= 0.5 and true_label["neg"]:
+            elif score >= 0.5 and true_label["cats"]["neg"]:
                 false_positives += 1
-            elif score < 0.5 and true_label["neg"]:
+            elif score < 0.5 and true_label["cats"]["neg"]:
                 true_negatives += 1
-            elif score < 0.5 and true_label["pos"]:
+            elif score < 0.5 and true_label["cats"]["pos"]:
                 false_negatives += 1
     precision = true_positives / (true_positives + false_positives)
     recall = true_positives / (true_positives + false_negatives)
