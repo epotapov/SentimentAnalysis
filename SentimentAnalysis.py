@@ -11,8 +11,15 @@ from spacy.util import minibatch, compounding
 """
 
 TEST_REVIEW = """
-Honestly this movie fucking sucks ass. Worst movie I have ever seen. Like honestly nothing has made
-my dick more limp than this fucking atrocity of a movie.
+    This movie is the greatest movie I have ever seen. It was better than all the other movies which I have seen.
+"""
+
+TEST_REVIEW2 = """
+    I really just thought this movie was bad. It was the worst movie I have ever seen!
+"""
+
+TEST_REVIEW3 = """
+    This move was okay. I didn't love it, but I also didn't hate it. Pretty mediocre.
 """
 
 def load_training_data(
@@ -138,7 +145,7 @@ def train_model(
     with nlp.use_params(optimizer.averages):
         nlp.to_disk("model_artifacts")
 
-def test_model(input_data: str = TEST_REVIEW):
+def test_model(input_data):
     #  Load saved trained model
     loaded_model = spacy.load("model_artifacts")
     # Generate prediction
@@ -156,7 +163,9 @@ def test_model(input_data: str = TEST_REVIEW):
     )
 
 if __name__ == "__main__":
-    train, test = load_training_data(limit=2500)
-    train_model(train, test)
+    '''train, test = load_training_data(limit=2500)
+    train_model(train, test)'''
     print("Testing model")
-    test_model()
+    test_model(TEST_REVIEW)
+    test_model(TEST_REVIEW2)
+    test_model(TEST_REVIEW3)
