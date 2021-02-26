@@ -163,8 +163,9 @@ def test_model(input_data):
     )
 
 if __name__ == "__main__":
-    '''train, test = load_training_data(limit=2500)
-    train_model(train, test)'''
+    if not os.path.isdir("model_artifacts"):
+        train, test = load_training_data(limit=2500)
+        train_model(train, test)
     print("Testing model")
     test_model(TEST_REVIEW)
     test_model(TEST_REVIEW2)
