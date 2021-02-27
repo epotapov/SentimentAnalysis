@@ -110,6 +110,7 @@ def train_model(
             4.0, 32.0, 1.001
         )  # A generator that yields infinite series of input numbers
         for i in range(iterations):
+            print(f"Training iteration {i}")
             loss = {}
             random.shuffle(training_data)
             batches = minibatch(training_data, size=batch_sizes)
