@@ -2,13 +2,6 @@ import os
 import random
 import spacy
 from spacy.util import minibatch, compounding
-"""
-    Transcendently beautiful in moments outside the office, it seems almost
-    sitcom-like in those scenes. When Toni Colette walks out and ponders
-    life silently, it's gorgeous.<br /><br />The movie doesn't seem to decide
-    whether it's slapstick, farce, magical realism, or drama, but the best of it
-    doesn't matter. (The worst is sort of tedious - like Office Space with less humor.)
-"""
 
 TEST_REVIEW = """
     This movie is the greatest movie I have ever seen. It was better than all the other movies which I have seen.
@@ -164,7 +157,7 @@ def test_model(input_data):
 
 if __name__ == "__main__":
     if not os.path.isdir("model_artifacts"):
-        train, test = load_training_data(limit=2500)
+        train, test = load_training_data(limit=5000)
         train_model(train, test)
     print("Testing model")
     test_model(TEST_REVIEW)
