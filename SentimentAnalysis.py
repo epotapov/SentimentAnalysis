@@ -2,6 +2,7 @@ import os
 import random
 import spacy
 from spacy.util import minibatch, compounding
+import pandas as pd
 
 TEST_REVIEW = """
     This movie is the greatest movie I have ever seen. It was better than all the other movies which I have seen.
@@ -156,11 +157,37 @@ def test_model(input_data):
         f"\tScore: {score}"
     )
 
+
+def test_modelCSV(input_data, loaded_model):
+    # Generate prediction
+    parsed_text = loaded_model(input_data)
+    # Determine prediction to return
+    if parsed_text.cats["pos"] > parsed_text.cats["neg"]:
+        return "Positive"
+    else:
+        return "Negative"
+
+def test_csv(csvFile):
+    loaded_model = spacy.load("model_artifacts")
+    data = pd.read_csv(csvFile)
+    data["Question 1 Result"] = ""
+    data["Question 2 Result"] = ""
+    for row in data.index:
+        num = row + 1
+        print(f"Testing {num} out of {len(data.axes[0])}")
+        q1 = data.loc[row, "What is your opinion on expanding federally implemented universal health care?"]
+        q2 = data.loc[row, "What are your thoughts on pineapple on pizza? "]
+        data.loc[row,"Question 1 Result"] = test_modelCSV(q1, loaded_model)
+        data.loc[row,"Question 2 Result"] = test_modelCSV(q2, loaded_model)
+    data.to_csv('testoutput.csv', index=False)
+
 if __name__ == "__main__":
     if not os.path.isdir("model_artifacts"):
-        train, test = load_training_data(limit=5000)
+        train, test = load_training_data(limit=20000)
         train_model(train, test)
     print("Testing model")
+    ##We still need to work on our neural network before we test the samples collected
+    ##test_csv("Opinion Form.csv") 
     test_model(TEST_REVIEW)
     test_model(TEST_REVIEW2)
     test_model(TEST_REVIEW3)
