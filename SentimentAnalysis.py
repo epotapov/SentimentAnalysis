@@ -4,6 +4,14 @@ import spacy
 from spacy.util import minibatch, compounding
 import pandas as pd
 
+Movie_REVIEW = """
+    Transcendently beautiful in moments outside the office, it seems almost
+    sitcom-like in those scenes. When Toni Colette walks out and ponders
+    life silently, it's gorgeous.<br /><br />The movie doesn't seem to decide
+    whether it's slapstick, farce, magical realism, or drama, but the best of it
+    doesn't matter. (The worst is sort of tedious - like Office Space with less humor.)
+"""
+
 TEST_REVIEW = """
     This movie is the greatest movie I have ever seen. It was better than all the other movies which I have seen.
 """
@@ -38,6 +46,7 @@ def load_training_data(
                             }
                         }
                         reviews.append((text, spacy_label))
+    random.seed(0)
     random.shuffle(reviews)
 
     if limit:
@@ -163,31 +172,34 @@ def test_modelCSV(input_data, loaded_model):
     parsed_text = loaded_model(input_data)
     # Determine prediction to return
     if parsed_text.cats["pos"] > parsed_text.cats["neg"]:
-        return "Positive"
+        return "Positive", float(parsed_text.cats["pos"])
     else:
-        return "Negative"
+        return "Negative", float(parsed_text.cats["neg"])
 
 def test_csv(csvFile):
     loaded_model = spacy.load("model_artifacts")
     data = pd.read_csv(csvFile)
     data["Question 1 Result"] = ""
     data["Question 2 Result"] = ""
+    data["Question 1 Score"] = ""
+    data["Question 2 Score"] = ""
     for row in data.index:
         num = row + 1
         print(f"Testing {num} out of {len(data.axes[0])}")
         q1 = data.loc[row, "What is your opinion on expanding federally implemented universal health care?"]
         q2 = data.loc[row, "What are your thoughts on pineapple on pizza? "]
-        data.loc[row,"Question 1 Result"] = test_modelCSV(q1, loaded_model)
-        data.loc[row,"Question 2 Result"] = test_modelCSV(q2, loaded_model)
+        data.loc[row,"Question 1 Result"], data.loc[row,"Question 1 Score"] = test_modelCSV(q1, loaded_model)
+        data.loc[row,"Question 2 Result"], data.loc[row,"Question 2 Score"] = test_modelCSV(q2, loaded_model)
     data.to_csv('testoutput.csv', index=False)
 
 if __name__ == "__main__":
     if not os.path.isdir("model_artifacts"):
-        train, test = load_training_data(limit=20000)
+        train, test = load_training_data(limit=10000)
         train_model(train, test)
     print("Testing model")
     ##We still need to work on our neural network before we test the samples collected
     ##test_csv("Opinion Form.csv") 
+    test_model(Movie_REVIEW)
     test_model(TEST_REVIEW)
     test_model(TEST_REVIEW2)
     test_model(TEST_REVIEW3)
