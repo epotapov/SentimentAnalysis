@@ -28,7 +28,7 @@ def load_training_data(
     data_directory: str = "aclImdb/train", ##https://ai.stanford.edu/~amaas/data/sentiment/
     split: float = 0.8,
     limit: int = 0
-) -> tuple:
+) -> list:
     # Load from files
     reviews = []
     for label in ["pos", "neg"]:
@@ -95,12 +95,13 @@ def train_model(
     iterations: int = 20
 ) -> None:
     # Build pipeline
-    nlp = spacy.load("en_core_web_sm")
+    nlp = spacy.blank("en")
     if "textcat" not in nlp.pipe_names:
-        textcat = nlp.create_pipe(
+        """textcat = nlp.create_pipe(
             "textcat", config={"architecture": "simple_cnn"}
-        )
-        nlp.add_pipe(textcat, last=True)
+        )"""
+        textcat = nlp.add_pipe("textcat")
+        
     else:
         textcat = nlp.get_pipe("textcat")
 
@@ -108,11 +109,11 @@ def train_model(
     textcat.add_label("neg")
 
     # Train only textcat
-    training_excluded_pipes = [
+    """training_excluded_pipes = [
         pipe for pipe in nlp.pipe_names if pipe != "textcat"
-    ]
-    with nlp.disable_pipes(training_excluded_pipes):
-        optimizer = nlp.begin_training()
+    ]"""
+    with nlp.select_pipes(disable=[]):
+        optimizer = nlp.initialize()
         # Training loop
         print("Beginning training")
         print("Loss\tPrecision\tRecall\tF-score")
@@ -125,13 +126,9 @@ def train_model(
             random.shuffle(training_data)
             batches = minibatch(training_data, size=batch_sizes)
             for batch in batches:
-                text, labels = zip(*batch)
+                ##text, labels = zip(*batch)
                 nlp.update(
-                    text,
-                    labels,
-                    drop=0.2,
-                    sgd=optimizer,
-                    losses=loss
+                    batch
                 )
             with textcat.model.use_params(optimizer.averages):
                 evaluation_results = evaluate_model(
