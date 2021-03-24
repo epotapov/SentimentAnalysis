@@ -3,6 +3,7 @@ import random
 import spacy
 from spacy.util import minibatch, compounding
 import pandas as pd
+import time
 
 Movie_REVIEW = """
     Transcendently beautiful in moments outside the office, it seems almost
@@ -192,10 +193,29 @@ def test_csv(csvFile):
         data.loc[row,"Question 2 Result"], data.loc[row,"Question 2 Score"] = test_modelCSV(q2, loaded_model)
     data.to_csv('testoutput.csv', index=False)
 
+def endTimer():
+    toc = time.perf_counter()
+
+    timePassed = toc - tic
+    seconds = 0
+    minute  = 0
+    hour = 0
+    if timePassed > 60:
+        minute  = int((timePassed)/60)
+        seconds = timePassed - (minute * 60)
+    else:
+        seconds = timePassed
+    if minute > 60:
+        hour  = int((minute)/60)
+        minute = minute - (hour * 60)
+    print(f"Training Time: {hour} hours {minute} minutes {seconds:0.4f} seconds")
+
 if __name__ == "__main__":
     if not os.path.isdir("model_artifacts"):
-        train, test = load_training_data(limit=10000)
+        train, test = load_training_data(limit=25000)
+        tic = time.perf_counter()
         train_model(train, test)
+        endTimer()
     print("Testing model")
     ##We still need to work on our neural network before we test the samples collected
     ##test_csv("Opinion Form.csv") 
