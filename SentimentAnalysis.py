@@ -195,19 +195,14 @@ def test_csv(csvFile):
 
 def endTimer():
     toc = time.perf_counter()
-
     timePassed = toc - tic
     seconds = 0
     minute  = 0
     hour = 0
-    if timePassed > 60:
-        minute  = int((timePassed)/60)
-        seconds = timePassed - (minute * 60)
-    else:
-        seconds = timePassed
-    if minute > 60:
-        hour  = int((minute)/60)
-        minute = minute - (hour * 60)
+    minute  = int((timePassed)/60)
+    seconds = timePassed % 60
+    hour  = int((minute)/60)
+    minute = int(minute % 60)
     print(f"Training Time: {hour} hours {minute} minutes {seconds:0.4f} seconds")
 
 if __name__ == "__main__":
