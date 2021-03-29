@@ -207,7 +207,7 @@ def endTimer():
 
 if __name__ == "__main__":
     if not os.path.isdir("model_artifacts"):
-        train, test = load_training_data(limit=25000)
+        train, test = load_training_data(limit=20000)
         tic = time.perf_counter()
         train_model(train, test)
         endTimer()
