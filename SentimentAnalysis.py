@@ -2,6 +2,7 @@ import os
 import random
 import spacy
 from spacy.util import minibatch, compounding
+from spacy.training import Example
 import pandas as pd
 
 Movie_REVIEW = """
@@ -126,10 +127,15 @@ def train_model(
             random.shuffle(training_data)
             batches = minibatch(training_data, size=batch_sizes)
             for batch in batches:
+                for text, annotations in batch:
+                    doc = nlp.make_doc(text)
+                    example = Example.from_dict(doc, annotations)
+                    nlp.update([example], drop=0.35, sgd=optimizer, losses=loss)
                 ##text, labels = zip(*batch)
-                nlp.update(
+                """nlp.update(
                     batch
                 )
+                """
             with textcat.model.use_params(optimizer.averages):
                 evaluation_results = evaluate_model(
                     tokenizer=nlp.tokenizer,
