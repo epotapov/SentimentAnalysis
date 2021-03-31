@@ -198,7 +198,7 @@ def test_csv(csvFile):
 
 if __name__ == "__main__":
     if not os.path.isdir("model_artifacts"):
-        train, test = load_training_data(limit=2500)
+        train, test = load_training_data(limit=20000)
         train_model(train, test)
     print("Testing model")
     ##We still need to work on our neural network before we test the samples collected
