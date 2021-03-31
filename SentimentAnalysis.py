@@ -4,6 +4,7 @@ import spacy
 from spacy.util import minibatch, compounding
 from spacy.training import Example
 import pandas as pd
+from spacy.pipeline.textcat_multilabel import DEFAULT_MULTI_TEXTCAT_MODEL
 
 Movie_REVIEW = """
     Transcendently beautiful in moments outside the office, it seems almost
@@ -101,7 +102,7 @@ def train_model(
         """textcat = nlp.create_pipe(
             "textcat", config={"architecture": "simple_cnn"}
         )"""
-        textcat = nlp.add_pipe("textcat")
+        textcat = nlp.add_pipe("textcat", config= {"threshold": 0.5, "model": DEFAULT_MULTI_TEXTCAT_MODEL,})
         
     else:
         textcat = nlp.get_pipe("textcat")
@@ -136,7 +137,7 @@ def train_model(
                     batch
                 )
                 """
-            with textcat.model.use_params(optimizer.averages):
+            with nlp.use_params(optimizer.averages):
                 evaluation_results = evaluate_model(
                     tokenizer=nlp.tokenizer,
                     textcat=textcat,
@@ -197,7 +198,7 @@ def test_csv(csvFile):
 
 if __name__ == "__main__":
     if not os.path.isdir("model_artifacts"):
-        train, test = load_training_data(limit=10000)
+        train, test = load_training_data(limit=2500)
         train_model(train, test)
     print("Testing model")
     ##We still need to work on our neural network before we test the samples collected
