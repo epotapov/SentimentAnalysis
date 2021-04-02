@@ -213,7 +213,7 @@ if __name__ == "__main__":
         endTimer()
     print("Testing model")
     ##We still need to work on our neural network before we test the samples collected
-    ##test_csv("Opinion Form.csv") 
+    test_csv("Opinion Form.csv") 
     test_model(Movie_REVIEW)
     test_model(TEST_REVIEW)
     test_model(TEST_REVIEW2)
