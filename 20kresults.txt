@@ -183,3 +183,7 @@ Review text:
     This move was okay. I didn't love it, but I also didn't hate it. Pretty mediocre.
 
 Predicted sentiment: Negative   Score: 0.9999545812606812
+
+
+Results:
+Question 1: 63/108 Question 2: 73/99
