@@ -179,7 +179,7 @@ def test_modelCSV(input_data, loaded_model):
 
 def test_csv(csvFile):
     loaded_model = spacy.load("model_artifacts")
-    data = pd.read_csv(csvFile)
+    data = pd.read_csv(csvFile, keep_default_na=False)
     data["Question 1 Result"] = ""
     data["Question 2 Result"] = ""
     data["Question 1 Score"] = ""
@@ -191,7 +191,7 @@ def test_csv(csvFile):
         q2 = data.loc[row, "What are your thoughts on pineapple on pizza? "]
         data.loc[row,"Question 1 Result"], data.loc[row,"Question 1 Score"] = test_modelCSV(q1, loaded_model)
         data.loc[row,"Question 2 Result"], data.loc[row,"Question 2 Score"] = test_modelCSV(q2, loaded_model)
-    data.to_csv('testoutput.csv', index=False)
+    data.to_csv('testoutputwithEvaluations.csv', index=False)
 
 def endTimer():
     toc = time.perf_counter()
@@ -213,7 +213,7 @@ if __name__ == "__main__":
         endTimer()
     print("Testing model")
     ##We still need to work on our neural network before we test the samples collected
-    test_csv("Opinion Form.csv") 
+    test_csv("OpinionFormEvaluations.csv") 
     test_model(Movie_REVIEW)
     test_model(TEST_REVIEW)
     test_model(TEST_REVIEW2)

@@ -1,0 +1,185 @@
+Beginning training
+Loss    Precision       Recall  F-score
+Training iteration 0
+14.880345505895093      0.8673726676708655      0.8431372548978278      0.8550832711864027
+Training iteration 1
+0.1805236021973542      0.8791374122323012      0.8593137254859838      0.8691125433769503
+Training iteration 2
+0.08358318791215424     0.8852130325770166      0.8656862745055605      0.8753407682732325
+Training iteration 3
+0.07044280704394623     0.8861629048042877      0.8852941176427191      0.8857282981810412
+Training iteration 4
+0.06364498856055434     0.8899355478389196      0.8799019607800005      0.8848903130348292
+Training iteration 5
+0.04973771890036005     0.8863748155391719      0.8833333333290033      0.884851460835331
+Training iteration 6
+0.045834960956426585    0.8846908734009584      0.8838235294074323      0.8842569887156241
+Training iteration 7
+0.03778043760019045     0.8871442590731741      0.8862745097995771      0.8867091711579858
+Training iteration 8
+0.03496804056737801     0.8837890624956847      0.8872549019564351      0.8855185909937109
+Training iteration 9
+0.030480689138187245    0.8889432485279406      0.8906862745054379      0.8898139079290411
+Training iteration 10
+0.02922336872438791     0.8870029097920127      0.8965686274465855      0.8917601170117417
+Training iteration 11
+0.02530517086256623     0.8881322957155247      0.8950980392112986      0.8916015624956465
+Training iteration 12
+0.023658611755603687    0.8854924793746459      0.8946078431328696      0.8900268227218239
+Training iteration 13
+0.022361659436530346    0.8849129593767655      0.8970588235250144      0.8909444985350977
+Training iteration 14
+0.02168842341245636     0.8844852585747488      0.8970588235250144      0.8907276709618364
+Training iteration 15
+0.019519418275321776    0.887159533069615       0.8941176470544406      0.8906249999956513
+Training iteration 16
+0.020349686088382057    0.8857696030934862      0.8970588235250144      0.8913784705265885
+Training iteration 17
+0.017983669600448948    0.8852300242087883      0.8960784313681566      0.8906211936619216
+Training iteration 18
+0.015234774563754439    0.8811594202855983      0.8941176470544406      0.8875912408715934
+Training iteration 19
+0.016584919919956143    0.8817567567525012      0.8955882352897275      0.8886186770384795
+Training Time: 1 hours 58 minutes 48.5633 seconds
+Testing model
+Testing 1 out of 121
+Testing 2 out of 121
+Testing 3 out of 121
+Testing 4 out of 121
+Testing 5 out of 121
+Testing 6 out of 121
+Testing 7 out of 121
+Testing 8 out of 121
+Testing 9 out of 121
+Testing 10 out of 121
+Testing 11 out of 121
+Testing 12 out of 121
+Testing 13 out of 121
+Testing 14 out of 121
+Testing 15 out of 121
+Testing 16 out of 121
+Testing 17 out of 121
+Testing 18 out of 121
+Testing 19 out of 121
+Testing 20 out of 121
+Testing 21 out of 121
+Testing 22 out of 121
+Testing 23 out of 121
+Testing 24 out of 121
+Testing 25 out of 121
+Testing 26 out of 121
+Testing 27 out of 121
+Testing 28 out of 121
+Testing 29 out of 121
+Testing 30 out of 121
+Testing 31 out of 121
+Testing 32 out of 121
+Testing 33 out of 121
+Testing 34 out of 121
+Testing 35 out of 121
+Testing 36 out of 121
+Testing 37 out of 121
+Testing 38 out of 121
+Testing 39 out of 121
+Testing 40 out of 121
+Testing 41 out of 121
+Testing 42 out of 121
+Testing 43 out of 121
+Testing 44 out of 121
+Testing 45 out of 121
+Testing 46 out of 121
+Testing 47 out of 121
+Testing 48 out of 121
+Testing 49 out of 121
+Testing 50 out of 121
+Testing 51 out of 121
+Testing 52 out of 121
+Testing 53 out of 121
+Testing 54 out of 121
+Testing 55 out of 121
+Testing 56 out of 121
+Testing 57 out of 121
+Testing 58 out of 121
+Testing 59 out of 121
+Testing 60 out of 121
+Testing 61 out of 121
+Testing 62 out of 121
+Testing 63 out of 121
+Testing 64 out of 121
+Testing 65 out of 121
+Testing 66 out of 121
+Testing 67 out of 121
+Testing 68 out of 121
+Testing 69 out of 121
+Testing 70 out of 121
+Testing 71 out of 121
+Testing 72 out of 121
+Testing 73 out of 121
+Testing 74 out of 121
+Testing 75 out of 121
+Testing 76 out of 121
+Testing 77 out of 121
+Testing 78 out of 121
+Testing 79 out of 121
+Testing 80 out of 121
+Testing 81 out of 121
+Testing 82 out of 121
+Testing 83 out of 121
+Testing 84 out of 121
+Testing 85 out of 121
+Testing 86 out of 121
+Testing 87 out of 121
+Testing 88 out of 121
+Testing 89 out of 121
+Testing 90 out of 121
+Testing 91 out of 121
+Testing 92 out of 121
+Testing 93 out of 121
+Testing 94 out of 121
+Testing 95 out of 121
+Testing 96 out of 121
+Testing 97 out of 121
+Testing 98 out of 121
+Testing 99 out of 121
+Testing 100 out of 121
+Testing 101 out of 121
+Testing 102 out of 121
+Testing 103 out of 121
+Testing 104 out of 121
+Testing 105 out of 121
+Testing 106 out of 121
+Testing 107 out of 121
+Testing 108 out of 121
+Testing 109 out of 121
+Testing 110 out of 121
+Testing 111 out of 121
+Testing 112 out of 121
+Testing 113 out of 121
+Testing 114 out of 121
+Testing 115 out of 121
+Testing 116 out of 121
+Testing 117 out of 121
+Testing 118 out of 121
+Testing 119 out of 121
+Testing 120 out of 121
+Testing 121 out of 121
+Review text:
+    Transcendently beautiful in moments outside the office, it seems almost
+    sitcom-like in those scenes. When Toni Colette walks out and ponders
+    life silently, it's gorgeous.<br /><br />The movie doesn't seem to decide
+    whether it's slapstick, farce, magical realism, or drama, but the best of it
+    doesn't matter. (The worst is sort of tedious - like Office Space with less humor.)
+
+Predicted sentiment: Positive   Score: 0.9531373977661133
+Review text:
+    This movie is the greatest movie I have ever seen. It was better than all the other movies which I have seen.
+
+Predicted sentiment: Positive   Score: 0.9979650974273682
+Review text:
+    I really just thought this movie was bad. It was the worst movie I have ever seen!
+
+Predicted sentiment: Negative   Score: 0.9999545812606812
+Review text:
+    This move was okay. I didn't love it, but I also didn't hate it. Pretty mediocre.
+
+Predicted sentiment: Negative   Score: 0.9999545812606812
