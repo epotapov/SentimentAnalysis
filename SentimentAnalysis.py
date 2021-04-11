@@ -5,6 +5,7 @@ from spacy.util import minibatch, compounding
 import pandas as pd
 import time
 
+# Test data
 TEST_REVIEW = """
     This movie is the greatest movie I have ever seen. It was better than all the other movies which I have seen.
 """
@@ -18,7 +19,7 @@ TEST_REVIEW3 = """
 """
 
 def load_training_data(
-    data_directory: str = "aclImdb/train", ##https://ai.stanford.edu/~amaas/data/sentiment/
+    data_directory: str = "aclImdb/train", #https://ai.stanford.edu/~amaas/data/sentiment/
     split: float = 0.8,
     limit: int = 0
 ) -> tuple:
@@ -28,7 +29,7 @@ def load_training_data(
         labeled_directory = f"{data_directory}/{label}"
         for review in os.listdir(labeled_directory):
             if review.endswith(".txt"):
-                with open(f"{labeled_directory}/{review}", encoding="utf-8") as f:   ##open(f"{labeled_directory}/{review}")
+                with open(f"{labeled_directory}/{review}", encoding="utf-8") as f: 
                     text = f.read()
                     text = text.replace("<br />", "\n\n")
                     if text.strip():
@@ -59,8 +60,7 @@ def evaluate_model(
     for i, review in enumerate(textcat.pipe(reviews)):
         true_label = labels[i]
         for predicted_label, score in review.cats.items():
-            # Every cats dictionary includes both labels. You can get all
-            # the info you need with just the pos label.
+            # Every cats dictionary includes both labels. You can get all the info you need with just the pos label.
             if (
                 predicted_label == "neg"
             ):
@@ -172,10 +172,12 @@ def test_modelCSV(input_data, loaded_model):
 def test_csv(csvFile):
     loaded_model = spacy.load("model_artifacts")
     data = pd.read_csv(csvFile, keep_default_na=False)
+    # Adds the columns to the new file
     data["Question 1 Result"] = ""
     data["Question 2 Result"] = ""
     data["Question 1 Score"] = ""
     data["Question 2 Score"] = ""
+    # Adds all the new data to the CSV file
     for row in data.index:
         num = row + 1
         print(f"Testing {num} out of {len(data.axes[0])}")
@@ -198,11 +200,14 @@ def endTimer():
     print(f"Training Time: {hour} hours {minute} minutes {seconds:0.4f} seconds")
 
 def dataAnalysis():
+    # Counts up all the correct results that match the evaluations
     data = pd.read_csv("testoutputwithEvaluations.csv", keep_default_na=False)
     q1correct = 0
     q2correct = 0
     q1num = len(data.axes[0])
     q2num = len(data.axes[0])
+    # Adds to the number correct if correct. It also decreases the entries it is out of for
+    # invalid answers. Doesn't increase the number correct if wrong.
     for row in data.index:
         num = row + 1
         print(f"Reading {num} out of {len(data.axes[0])}")
@@ -225,13 +230,13 @@ def dataAnalysis():
     print(f"Question 1: {q1correct}/{q1num} Question 2: {q2correct}/{q2num}")
 
 if __name__ == "__main__":
+    # Checks to make sure that we don't retrain the model everytime.
     if not os.path.isdir("model_artifacts"):
         train, test = load_training_data(limit=20000)
         tic = time.perf_counter()
         train_model(train, test)
         endTimer()
     print("Testing model")
-    ##We still need to work on our neural network before we test the samples collected
     test_csv("OpinionFormEvaluations.csv") 
     dataAnalysis()
     test_model(TEST_REVIEW)
