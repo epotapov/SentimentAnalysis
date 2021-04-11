@@ -5,14 +5,6 @@ from spacy.util import minibatch, compounding
 import pandas as pd
 import time
 
-Movie_REVIEW = """
-    Transcendently beautiful in moments outside the office, it seems almost
-    sitcom-like in those scenes. When Toni Colette walks out and ponders
-    life silently, it's gorgeous.<br /><br />The movie doesn't seem to decide
-    whether it's slapstick, farce, magical realism, or drama, but the best of it
-    doesn't matter. (The worst is sort of tedious - like Office Space with less humor.)
-"""
-
 TEST_REVIEW = """
     This movie is the greatest movie I have ever seen. It was better than all the other movies which I have seen.
 """
@@ -163,7 +155,7 @@ def test_model(input_data):
         prediction = "Negative"
         score = parsed_text.cats["neg"]
     print(
-        f"Review text: {input_data}\nPredicted sentiment: {prediction}"
+        f"Review test text: {input_data}\nPredicted sentiment: {prediction}"
         f"\tScore: {score}"
     )
 
@@ -242,7 +234,6 @@ if __name__ == "__main__":
     ##We still need to work on our neural network before we test the samples collected
     test_csv("OpinionFormEvaluations.csv") 
     dataAnalysis()
-    test_model(Movie_REVIEW)
     test_model(TEST_REVIEW)
     test_model(TEST_REVIEW2)
     test_model(TEST_REVIEW3)
