@@ -5,14 +5,7 @@ from spacy.util import minibatch, compounding
 import pandas as pd
 import time
 
-Movie_REVIEW = """
-    Transcendently beautiful in moments outside the office, it seems almost
-    sitcom-like in those scenes. When Toni Colette walks out and ponders
-    life silently, it's gorgeous.<br /><br />The movie doesn't seem to decide
-    whether it's slapstick, farce, magical realism, or drama, but the best of it
-    doesn't matter. (The worst is sort of tedious - like Office Space with less humor.)
-"""
-
+# Test data
 TEST_REVIEW = """
     This movie is the greatest movie I have ever seen. It was better than all the other movies which I have seen.
 """
@@ -26,7 +19,7 @@ TEST_REVIEW3 = """
 """
 
 def load_training_data(
-    data_directory: str = "aclImdb/train", ##https://ai.stanford.edu/~amaas/data/sentiment/
+    data_directory: str = "aclImdb/train", #https://ai.stanford.edu/~amaas/data/sentiment/
     split: float = 0.8,
     limit: int = 0
 ) -> tuple:
@@ -36,7 +29,7 @@ def load_training_data(
         labeled_directory = f"{data_directory}/{label}"
         for review in os.listdir(labeled_directory):
             if review.endswith(".txt"):
-                with open(f"{labeled_directory}/{review}", encoding="utf-8") as f:   ##open(f"{labeled_directory}/{review}")
+                with open(f"{labeled_directory}/{review}", encoding="utf-8") as f: 
                     text = f.read()
                     text = text.replace("<br />", "\n\n")
                     if text.strip():
@@ -67,8 +60,7 @@ def evaluate_model(
     for i, review in enumerate(textcat.pipe(reviews)):
         true_label = labels[i]
         for predicted_label, score in review.cats.items():
-            # Every cats dictionary includes both labels. You can get all
-            # the info you need with just the pos label.
+            # Every cats dictionary includes both labels. You can get all the info you need with just the pos label.
             if (
                 predicted_label == "neg"
             ):
@@ -163,7 +155,7 @@ def test_model(input_data):
         prediction = "Negative"
         score = parsed_text.cats["neg"]
     print(
-        f"Review text: {input_data}\nPredicted sentiment: {prediction}"
+        f"Review test text: {input_data}\nPredicted sentiment: {prediction}"
         f"\tScore: {score}"
     )
 
@@ -179,11 +171,13 @@ def test_modelCSV(input_data, loaded_model):
 
 def test_csv(csvFile):
     loaded_model = spacy.load("model_artifacts")
-    data = pd.read_csv(csvFile)
+    data = pd.read_csv(csvFile, keep_default_na=False)
+    # Adds the columns to the new file
     data["Question 1 Result"] = ""
     data["Question 2 Result"] = ""
     data["Question 1 Score"] = ""
     data["Question 2 Score"] = ""
+    # Adds all the new data to the CSV file
     for row in data.index:
         num = row + 1
         print(f"Testing {num} out of {len(data.axes[0])}")
@@ -191,7 +185,7 @@ def test_csv(csvFile):
         q2 = data.loc[row, "What are your thoughts on pineapple on pizza? "]
         data.loc[row,"Question 1 Result"], data.loc[row,"Question 1 Score"] = test_modelCSV(q1, loaded_model)
         data.loc[row,"Question 2 Result"], data.loc[row,"Question 2 Score"] = test_modelCSV(q2, loaded_model)
-    data.to_csv('testoutput.csv', index=False)
+    data.to_csv('testoutputwithEvaluations.csv', index=False)
 
 def endTimer():
     toc = time.perf_counter()
@@ -205,16 +199,46 @@ def endTimer():
     minute = int(minute % 60)
     print(f"Training Time: {hour} hours {minute} minutes {seconds:0.4f} seconds")
 
+def dataAnalysis():
+    # Counts up all the correct results that match the evaluations
+    data = pd.read_csv("testoutputwithEvaluations.csv", keep_default_na=False)
+    q1correct = 0
+    q2correct = 0
+    q1num = len(data.axes[0])
+    q2num = len(data.axes[0])
+    # Adds to the number correct if correct. It also decreases the entries it is out of for
+    # invalid answers. Doesn't increase the number correct if wrong.
+    for row in data.index:
+        num = row + 1
+        print(f"Reading {num} out of {len(data.axes[0])}")
+        e1 = data.loc[row, "Question 1 Evaluation"]
+        e2 = data.loc[row, "Question 2 Evaluation"]
+        r1 = data.loc[row, "Question 1 Result"]
+        r2 = data.loc[row, "Question 2 Result"]
+
+        if e1 != "N/A":
+            if e1 == r1:
+                q1correct += 1
+        else:
+            q1num -= 1
+
+        if e2 != "N/A":
+            if e2 == r2:
+                q2correct += 1
+        else:
+            q2num -= 1
+    print(f"Question 1: {q1correct}/{q1num} Question 2: {q2correct}/{q2num}")
+
 if __name__ == "__main__":
+    # Checks to make sure that we don't retrain the model everytime.
     if not os.path.isdir("model_artifacts"):
         train, test = load_training_data(limit=20000)
         tic = time.perf_counter()
         train_model(train, test)
         endTimer()
     print("Testing model")
-    ##We still need to work on our neural network before we test the samples collected
-    ##test_csv("Opinion Form.csv") 
-    test_model(Movie_REVIEW)
+    test_csv("OpinionFormEvaluations.csv") 
+    dataAnalysis()
     test_model(TEST_REVIEW)
     test_model(TEST_REVIEW2)
     test_model(TEST_REVIEW3)
